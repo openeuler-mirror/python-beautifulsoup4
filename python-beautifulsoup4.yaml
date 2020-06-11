@@ -1,4 +1,4 @@
 version_control: pypi
-src_repo: beautifulsopu4
-tag_prefix: "^v"
+src_repo: beautifulsoup4
+tag_prefix: ^v
 seperator: ".
