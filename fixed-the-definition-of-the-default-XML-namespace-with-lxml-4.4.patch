@@ -1,0 +1,37 @@
+From 453d62e74ec20fddc0c8d3b79a915f4572c5e989 Mon Sep 17 00:00:00 2001
+From: guoxiaoqi <guoxiaoqi2@huawei.com>
+Date: Mon, 24 May 2021 14:52:29 +0800
+Subject: [PATCH] fixed the definition of the default XML namespace with lxml 4.4
+
+The check failture occurs while lxml is returning the name as an empty string, which causes bs4 to create a key in the form "prefix:".
+
+Signed-off-by: guoxiaoqi <guoxiaoqi2@huawei.com>
+---
+ bs4/element.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/bs4/element.py b/bs4/element.py
+index 886eb91..d531fe9 100644
+--- a/bs4/element.py
++++ b/bs4/element.py
+@@ -31,7 +31,16 @@ def _alias(attr):
+ 
+ class NamespacedAttribute(unicode):
+ 
+-    def __new__(cls, prefix, name, namespace=None):
++    """A namespaced string (e.g. 'xml:lang') that remembers the namespace
++    ('xml') and the name ('lang') that were used to create it.
++    """
++    
++    def __new__(cls, prefix, name=None, namespace=None):
++        if not name:
++            # This is the default namespace. Its name "has no value"
++            # per https://www.w3.org/TR/xml-names/#defaulting
++            name = None
++
+         if name is None:
+             obj = unicode.__new__(cls, prefix)
+         elif prefix is None:
+-- 
+1.8.3.1
+
