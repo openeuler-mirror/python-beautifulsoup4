@@ -1,6 +1,6 @@
 Name:           python-beautifulsoup4
-Version:        4.6.3
-Release:        4
+Version:        4.9.3
+Release:        1
 Summary:        HTML/XML parser for quick-turnaround projects
 License:        MIT
 URL:            http://www.crummy.com/software/BeautifulSoup/
@@ -24,11 +24,7 @@ Requires:       python3-lxml
 
 %prep
 %setup -q -n beautifulsoup4-%{version}
-mv AUTHORS.txt AUTHORS.txt.iso
-iconv -f ISO-8859-1 -t UTF-8 -o AUTHORS.txt AUTHORS.txt.iso
-touch -r AUTHORS.txt.iso AUTHORS.txt
-rm -rf %{py3dir} 
-cp -a . %{py3dir}
+rm -rf %{py3dir} && cp -a . %{py3dir}
 
 %build
 pushd %{py3dir}
@@ -44,12 +40,15 @@ pushd %{py3dir}
 %{__python3} -m unittest discover -s bs4 || :
 
 %files -n python3-beautifulsoup4
-%{python3_sitelib}/bs4
-%{python3_sitelib}/beautifulsoup4-%{version}*.egg-info
-%doc TODO.txt AUTHORS.txt NEWS.txt
 %license COPYING.txt
+%doc NEWS.txt TODO.txt
+%{python3_sitelib}/beautifulsoup4-%{version}*.egg-info
+%{python3_sitelib}/bs4
 
 %changelog
+* Mon Jul 26 2021 liusheng<liusheng2048@huawei.com>  - 4.9.3-1
+- Upgrade to version 4.9.3
+
 * Fri Oct 30 2020 wangjie<wangjie294@huawei.com> -4.6.3-4
 - Type:NA
 - ID:NA
