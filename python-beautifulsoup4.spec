@@ -1,10 +1,12 @@
 Name:           python-beautifulsoup4
 Version:        4.6.3
-Release:        2
+Release:        3
 Summary:        HTML/XML parser for quick-turnaround projects
 License:        MIT
 URL:            http://www.crummy.com/software/BeautifulSoup/
 Source0:        https://files.pythonhosted.org/packages/source/b/beautifulsoup4/beautifulsoup4-%{version}.tar.gz
+Patch0:         fixed-the-definition-of-the-default-XML-namespace-with-lxml-4.4.patch
+
 BuildArch:      noarch
 BuildRequires:  python2-devel >= 2.7 python2-html5lib python2-setuptools python2-lxml python2-tools
 BuildRequires:  python3-devel python3-html5lib python3-setuptools python3-lxml
@@ -30,7 +32,7 @@ Obsoletes:      python3-BeautifulSoup < 1:3.2.1-2
 Requires:       python3-lxml
 
 %prep
-%setup -q -n beautifulsoup4-%{version}
+%autosetup -n beautifulsoup4-%{version} -p1
 mv AUTHORS.txt AUTHORS.txt.iso
 iconv -f ISO-8859-1 -t UTF-8 -o AUTHORS.txt AUTHORS.txt.iso
 touch -r AUTHORS.txt.iso AUTHORS.txt
@@ -66,5 +68,8 @@ pushd %{py3dir}
 %license COPYING.txt
 
 %changelog
+* Wed Sep 22 2021 wangyue <wangyue92@huawei.com> - 4.6.3-3
+- fixed the definition of the default XML namespace with lxml 4.4
+
 * Sat Sep 21 2019 yangfeiyu <yangfeiyu2@huawei.com> - 4.6.3-2
 - spec init
