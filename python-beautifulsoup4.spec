@@ -1,12 +1,15 @@
 Name:           python-beautifulsoup4
 Version:        4.9.3
-Release:        1
+Release:        2
 Summary:        HTML/XML parser for quick-turnaround projects
 License:        MIT
 URL:            http://www.crummy.com/software/BeautifulSoup/
 Source0:        https://files.pythonhosted.org/packages/source/b/beautifulsoup4/beautifulsoup4-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel python3-html5lib python3-setuptools python3-lxml
+BuildRequires:  python3-soupsieve
+
+Patch6000:      backport-converts-the-code-base-to-Python-3-and-removes-the-u.patch 
 
 %global _description\
 This package provides a python library which is designed for quick\
@@ -24,19 +27,15 @@ Requires:       python3-lxml
 
 %prep
 %setup -q -n beautifulsoup4-%{version}
-rm -rf %{py3dir} && cp -a . %{py3dir}
+%patch6000 -p1
 
 %build
-pushd %{py3dir}
-2to3 --write --nobackups .
 %{py3_build}
 
 %install
-pushd %{py3dir}
 %{py3_install}
 
 %check
-pushd %{py3dir}
 %{__python3} -m unittest discover -s bs4 || :
 
 %files -n python3-beautifulsoup4
@@ -46,6 +45,9 @@ pushd %{py3dir}
 %{python3_sitelib}/bs4
 
 %changelog
+* Mon Jan 10 2022 shixuantong <shixuantong@huawei.com> - 4.9.3-2
+- converts the code base to Python 3, and removes the use_2to3 reference in setup.py.
+
 * Mon Jul 26 2021 liusheng<liusheng2048@huawei.com>  - 4.9.3-1
 - Upgrade to version 4.9.3
 
