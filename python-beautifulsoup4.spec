@@ -1,12 +1,15 @@
 %global _empty_manifest_terminate_build 0
 Name:           python-beautifulsoup4
-Version:        4.10.0
+Version:        4.11.1
 Release:        1
 Summary:        Screen-scraping library
 License:        MIT
-URL:            http://www.crummy.com/software/BeautifulSoup/bs4/
-Source0:        https://files.pythonhosted.org/packages/a1/69/daeee6d8f22c997e522cdbeb59641c4d31ab120aba0f2c799500f7456b7e/beautifulsoup4-4.10.0.tar.gz
+URL:            https://www.crummy.com/software/BeautifulSoup/bs4/
+Source0:        https://files.pythonhosted.org/packages/e8/b0/cd2b968000577ec5ce6c741a54d846dfa402372369b8b6861720aa9ecea7/beautifulsoup4-4.11.1.tar.gz
 BuildArch:      noarch
+
+Requires:	python3-soupsieve
+
 %description
 This package provides a python library which is designed for quick
 turnaround projects.It provides methods for navigating and modifying
@@ -16,20 +19,11 @@ and outgoing documents to utf-8.
 %package -n python3-beautifulsoup4
 Summary:        Screen-scraping library
 Provides:       python-beautifulsoup4
-# Base build requires
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-pbr
-BuildRequires:  python3-pip
-BuildRequires:  python3-wheel
-# General requires
-BuildRequires:  python3-soupsieve
 BuildRequires:  python3-html5lib
 BuildRequires:  python3-lxml
-# General requires
-Requires:       python3-soupsieve
-Requires:       python3-html5lib
-Requires:       python3-lxml
+BuildRequires:  python3-pip
 %description -n python3-beautifulsoup4
 This package provides a python library which is designed for quick
 turnaround projects.It provides methods for navigating and modifying
@@ -53,7 +47,6 @@ and outgoing documents to utf-8.
 
 %install
 %py3_install
-
 install -d -m755 %{buildroot}/%{_pkgdocdir}
 if [ -d doc ]; then cp -arf doc %{buildroot}/%{_pkgdocdir}; fi
 if [ -d docs ]; then cp -arf docs %{buildroot}/%{_pkgdocdir}; fi
@@ -90,6 +83,9 @@ mv %{buildroot}/doclist.lst .
 %{_docdir}/*
 
 %changelog
+* Thu Nov 10 2022 liqiuyu <liqiuyu@kylinos.cn> - 4.11.1-1
+- Upgrade package to version 4.11.1
+
 * Tue May 24 2022 renliang <renliang@uniontech.com> - 4.10.0-1
 - Upgrade package python3-beautifulsoup4 to version 4.10.0
 
